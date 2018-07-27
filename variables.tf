@@ -14,9 +14,19 @@ variable "public_subnet_mask" {
 	default = "24"
 }
 
+variable "public_subnet_count" {
+	description = "Netmask of VPC public subnets"
+	default = 3
+}
+
 variable "private_subnet_mask" {
 	description = "Netmask of VPC private subnets"
 	default = "22"
+}
+
+variable "private_subnet_count" {
+	description = "Netmask of VPC private subnets"
+	default = 3
 }
 
 variable "region" {
@@ -24,12 +34,7 @@ variable "region" {
 	default = "us-west-2"
 }
 
-variable "index_to_AZ" {
+variable "azs" {
 	description = "Map Terraform 'count' indexes to VPC AZ letters"
-	type = "map"
-	default = {
-		"0" = "a"
-		"1" = "b"
-		"2" = "c"
-	}
+	default = [ "a", "b", "c" ]
 }

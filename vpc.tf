@@ -12,7 +12,7 @@ resource "aws_subnet" "public" {
 	cidr_block = "${}"
 	cidr_block = "${cidrsubnet(format("%s/%s", var.vpc_cidr_ip, var.vpc_cidr_mask),
 									var.public_subnet_mask - var.vpc_cidr_mask, count.index)}"
-	availability_zone = "${format("%s%s", var.region, lookup(var.index_to_AZ, count.index%3))}"
+	availability_zone = "${format("%s%s", var.region, var.azs[count.index%3])}"
 }
 
 resource "aws_subnet" "private" {
@@ -21,5 +21,5 @@ resource "aws_subnet" "private" {
 	cidr_block = "${}"
 	cidr_block = "${cidrsubnet(format("%s/%s", var.vpc_cidr_ip, var.vpc_cidr_mask),
 									var.private_subnet_mask - var.vpc_cidr_mask, count.index + aws_subnet.public.count - 1)}"
-	availability_zone = "${format("%s%s", var.region, lookup(var.index_to_AZ, count.index%3))}"
+	availability_zone = "${format("%s%s", var.region, var.azs[count.index%3])}"
 }
