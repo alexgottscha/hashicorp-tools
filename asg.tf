@@ -26,14 +26,15 @@ resource "aws_launch_configuration" "drbd_test" {
   }
 }
 
-resource "aws_autoscaling_group" "bar" {
+resource "aws_autoscaling_group" "drbd_test" {
   name                 = "terraform-drbd_test"
   launch_configuration = "${aws_launch_configuration.as_conf.name}"
   min_size             = 1
-  max_size             = 2
+  max_size             = 3
 
   lifecycle {
-    create_before_destroy = true
+    create_before_destroy = false
   }
+	user_data = "file://userdata.sh"
 }
 

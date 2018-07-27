@@ -1,0 +1,8 @@
+#cloud-config
+
+hostname: drbd-test
+users:
+  - name: alex
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVAUiqNOwDkv1Sswsw2Gsb8Uaw6pU1m1ktsDdodIstJPTPjalKdmUEtfyZNZCx69dbpxbM3jxW1F/lZXHHxf5NzWmXjayccwuU43OVrR/oMENf4Z4DIJlUTBHEtGt+C/knmuo8QgO2MSGo5ADus3G8f7hjLecEAINAQnXdug6i+c0yVT6RB+Y4J4Q3wp0MCO+Rsy4/evIfKNQmsfyJLkD0KajZGjwMR1nkuZxBGwEsfMmdTcwSwKCtZwj02Z6hbhYUGvedrEC3fNu6q0HxCJELmTMmyPRVEAZKqrhhC7kNybJPsxuQUksmsGJM3Hj3N3XPcXOnn9kb3dgrk/0kr219 alex@the-cube
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
