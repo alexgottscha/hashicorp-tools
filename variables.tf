@@ -15,7 +15,7 @@ variable "public_subnet_mask" {
 }
 
 variable "public_subnet_count" {
-	description = "Netmask of VPC public subnets"
+	description = "Number of VPC public subnets"
 	default = 3
 }
 
@@ -25,17 +25,17 @@ variable "private_subnet_mask" {
 }
 
 variable "private_subnet_count" {
-	description = "Netmask of VPC private subnets"
+	description = "Number of VPC private subnets"
 	default = 3
 }
 
 variable "data_subnet_mask" {
-	description = "Netmask of VPC private subnets"
+	description = "Netmask of VPC data subnets"
 	default = "24"
 }
 
 variable "data_subnet_count" {
-	description = "Netmask of VPC private subnets"
+	description = "Number of VPC data subnets"
 	default = 3
 }
 
