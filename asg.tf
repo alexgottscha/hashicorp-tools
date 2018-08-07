@@ -19,8 +19,10 @@ data "aws_ami" "ubuntu" {
 resource "aws_launch_configuration" "drbd_test" {
   name					= "drbd-test"
   image_id      = "${data.aws_ami.ubuntu.id}"
+#	image_id = "ami-1cc69e64"
   instance_type = "t2.micro"
 	user_data = "file://userdata_drbd-test.sh"
+	key_name = "alexg"
 
   lifecycle {
     create_before_destroy = true
@@ -37,5 +39,11 @@ resource "aws_autoscaling_group" "drbd_test" {
   lifecycle {
     create_before_destroy = false
   }
+
+	tag {
+		key = "Name"
+		value = "drbd-test"
+		propagate_at_launch = true
+	}
 }
 
