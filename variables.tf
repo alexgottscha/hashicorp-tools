@@ -29,6 +29,16 @@ variable "private_subnet_count" {
 	default = 3
 }
 
+variable "data_subnet_mask" {
+	description = "Netmask of VPC private subnets"
+	default = "24"
+}
+
+variable "data_subnet_count" {
+	description = "Netmask of VPC private subnets"
+	default = 3
+}
+
 variable "region" {
 	description = "AWS region for VPC"
 	default = "us-west-2"
