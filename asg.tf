@@ -17,7 +17,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_launch_configuration" "drbd_test" {
-  name					= "drbd-test"
+  name_prefix          = "drbd-test-"
   image_id      = "${data.aws_ami.ubuntu.id}"
 #	image_id = "ami-1cc69e64"
   instance_type = "t2.micro"
@@ -37,7 +37,7 @@ resource "aws_autoscaling_group" "drbd_test" {
 	vpc_zone_identifier  = ["${aws_subnet.private.*.id}"]
 
   lifecycle {
-    create_before_destroy = false
+    create_before_destroy = true
   }
 
 	tag {
