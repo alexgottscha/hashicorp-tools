@@ -22,6 +22,34 @@ resource "aws_subnet" "public" {
 	}
 }
 
+resource "aws_route_table" "public" {
+	vpc_id = "${aws_vpc.this.id}"
+	route {
+		cidr_block = "0.0.0.0/0"
+		gateway_id = "${aws_internet_gateway.public.id}"
+	}
+}
+
+resource "aws_route_table_association" "public" {
+	count = "${var.public_subnet_count}"
+	subnet_id = "${element(aws_subnet.public.*.id, count.index)}"
+	route_table_id = "${aws_route_table.public.id}"
+}
+
+resource "random_shuffle" "nat_gateway_subnet" {
+	input = ["${aws_subnet.public.*.id}"]
+	result_count = 1
+}
+
+resource "aws_eip" "nat" {
+	vpc = true
+}
+
+resource "aws_nat_gateway" "private" {
+	subnet_id = "${random_shuffle.nat_gateway_subnet.result}"
+	association_id = "${aws_eip.nat.id}"
+}
+
 resource "aws_subnet" "private" {
 	count = "${var.private_subnet_count}"
 	vpc_id = "${aws_vpc.this.id}"
@@ -32,6 +60,20 @@ resource "aws_subnet" "private" {
 	tags {
 		Name = "${format("%s-%s", "private", var.azs[count.index%3])}"
 	}
+}
+
+resource "aws_route_table" "private" {
+	vpc_id = "${aws_vpc.this.id}"
+	route {
+		cidr_block = "0.0.0.0/0"
+		gateway_id = "${aws_nat_gateway.private.id}"
+	}
+}
+
+resource "aws_route_table_association" "private" {
+	count = "${var.private_subnet_count}"
+	subnet_id = "${element(aws_subnet.private.*.id, count.index)}"
+	route_table_id = "${aws_route_table.private.id}"
 }
 
 resource "aws_subnet" "data" {
@@ -45,18 +87,4 @@ resource "aws_subnet" "data" {
 	tags {
 		Name = "${format("%s-%s", "data", var.azs[count.index%3])}"
 	}
-}
-
-resource "aws_route_table" "public" {
-	vpc_id = "${aws_vpc.this.id}"
-	route {
-		cidr_block = "0.0.0.0/0"
-		gateway_id = "${aws_internet_gateway.public.id}"
-	}
-}
-
-resource "aws_route_table_association" "public" {
-	count = "${var.public_subnet_count}"
-	subnet_id = "${element(aws_subnet.public.*.id, count.index)}"
-	route_table_id = "${aws_route_table.public.id}"
 }
