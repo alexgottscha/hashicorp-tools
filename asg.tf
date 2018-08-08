@@ -16,22 +16,28 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_launch_configuration" "drbd_test" {
+resource "aws_launch_configuration" "drbd" {
   name_prefix          = "drbd-test-"
   image_id      = "${data.aws_ami.ubuntu.id}"
 #	image_id = "ami-1cc69e64"
   instance_type = "t2.micro"
-	user_data = "file://userdata_drbd-test.sh"
+	user_data = "${file("userdata_drbd-test.yml")}"
 	key_name = "alexg"
+	ebs_block_device {
+		volume_type = "standard"
+		volume_size = 8
+		delete_on_termination = true
+		device_name = "/dev/sdf"
+	}
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
-resource "aws_autoscaling_group" "drbd_test" {
-  name                 = "drbd-test"
-  launch_configuration = "${aws_launch_configuration.drbd_test.name}"
+resource "aws_autoscaling_group" "drbd" {
+  name_prefix          = "drbd-test-"
+  launch_configuration = "${aws_launch_configuration.drbd.name}"
   min_size             = 1
   max_size             = 3
 	vpc_zone_identifier  = ["${aws_subnet.private.*.id}"]
