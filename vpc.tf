@@ -46,8 +46,8 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "private" {
-	subnet_id = "${random_shuffle.nat_gateway_subnet.result}"
-	association_id = "${aws_eip.nat.id}"
+	subnet_id = "${random_shuffle.nat_gateway_subnet.result.0}"
+	allocation_id = "${aws_eip.nat.id}"
 }
 
 resource "aws_subnet" "private" {
