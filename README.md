@@ -1,4 +1,4 @@
-# My VPC Automation
+# VPC Automation with Hashicorp Tools
 
 ## Authors
 Alex Gottschalk <alex.gottschalk@gmail.com>
