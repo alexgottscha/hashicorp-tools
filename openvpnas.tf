@@ -2,7 +2,7 @@ data "aws_ami" "openvpnas" {
   most_recent = true
   filter {
     name   = "name"
-    values = ["OpenVPN Access Server 2.5.0-*"]
+    values = ["OpenVPN Access Server 2.5.0-fe8020db-5343-4c43-9e65-5ed4a825c931-*"]
   }
   filter {
     name   = "virtualization-type"
@@ -13,7 +13,7 @@ data "aws_ami" "openvpnas" {
 
 resource "aws_instance" "openvpnas" {
 	tags {
-		name = "OpenVPN AS"
+		Name = "OpenVPN AS"
 	}
   ami = "${data.aws_ami.openvpnas.id}"
   instance_type = "t2.micro"
