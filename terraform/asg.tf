@@ -51,5 +51,11 @@ resource "aws_autoscaling_group" "drbd" {
 		value = "drbd-test"
 		propagate_at_launch = true
 	}
+
+	tag {
+		key = "Role"
+		value = "drbd"
+		propagate_at_launch = true
+	}
 }
 

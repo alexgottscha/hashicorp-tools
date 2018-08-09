@@ -14,6 +14,7 @@ data "aws_ami" "openvpnas" {
 resource "aws_instance" "openvpnas" {
 	tags {
 		Name = "OpenVPN AS"
+		Role = "openvpnas"
 	}
   ami = "${data.aws_ami.openvpnas.id}"
   instance_type = "t2.micro"
